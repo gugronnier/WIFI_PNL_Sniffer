@@ -6,6 +6,11 @@ This sniffer will sniff and capture these becons and visualize them for you.
 
 Usage:
 
+First run:
+airmon-ng check kill
+And put your wifi network card in monitor mode
+airmon-ng start wlan1
+
 .\pnlscanner.py -i wlan1mon -w capture.cap
 
 optional arguments:
@@ -15,3 +20,4 @@ optional arguments:
   -w WRITE, --write WRITE
                         Write to capture pcap file
 
+Example: ./pnlsniffer.py -i wlan1mon -w output.cap
