@@ -6,6 +6,8 @@ import subprocess
 import pdb
 from scapy.all import *
 
+__author__ = 'Mattias Grondahl'
+
 #try:
 #	from scapy.all import *
 #except ImportError, error:
@@ -35,34 +37,45 @@ class bcolors:
         self.FAIL = ''
         self.ENDC = ''
 
+def get_args():
+	parser = argparse.ArgumentParser(description='PNL sniffer.')
+	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=True)
+	parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
+	parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
+	parser.add_argument('-e', '--example', help='shows example')
+	args = parser.parse_args()
 
-parser = argparse.ArgumentParser(description='PNL sniffer.')
-parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=True)
-parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
-#parser.add_argument('-v', action='append_const', dest='const_collection',	
-#                    const='value-2-to-append',
-#                    help='Add different values to list')
-#parser.add_argument('--version', action='version', version='%(prog)s 1.0')
-args = parser.parse_args()
+#if args.example:
+#	print "example"
+
+# Assign args to variables
+	interface = args.interface
+	write = args.write
+# Return all variable values
+	return interface, write
+
+interface, write = get_args()
 
 #if not args.interface:
 #  parser.print_usage()
 #  sys.exit(2)
 
-print '''
- _____  _   _ _         _____       _  __  __          
- |  __ \| \ | | |      / ____|     (_)/ _|/ _|         
- | |__) |  \| | |      | (___  _ __  _| |_| |_ ___ _ __ 
- |  ___/| . ` | |       \___ \| '_ \| |  _|  _/ _ \ '__|
- | |    | |\  | |____   ____) | | | | | | | ||  __/ |   
- |_|    |_| \_|______| |_____/|_| |_|_|_| |_| \___|_|   
+print bcolors.OKGREEN +'''
+	 _____  _   _ _         _____       _  __  __          
+	 |  __ \| \ | | |      / ____|     (_)/ _|/ _|         
+	 | |__) |  \| | |      | (___  _ __  _| |_| |_ ___ _ __ 
+	 |  ___/| . ` | |       \___ \| '_ \| |  _|  _/ _ \ '__|
+	 | |    | |\  | |____   ____) | | | | | | | ||  __/ |   
+	 |_|    |_| \_|______| |_____/|_| |_|_|_| |_| \___|_|   
                                                         
 '''
 
-print (bcolors.OKBLUE + "Running against: " + bcolors.WARNING + args.interface + bcolors.ENDC)
-print (bcolors.OKBLUE + "Capturing to: " + bcolors.WARNING + args.write + bcolors.ENDC)
-print (bcolors.OKBLUE + "Loggin to: " + bcolors.WARNING + "pnl.dot" + bcolors.ENDC)
-print (bcolors.FAIL + "Press CTRL + C to Cancel" + bcolors.ENDC)
+print (bcolors.OKBLUE + "_____________________________________________________________________________________________________________ " + bcolors.ENDC)
+print (bcolors.OKBLUE + "|\n| Interface name:			 	 " + bcolors.FAIL + " %s " % interface + bcolors.ENDC)
+print (bcolors.OKBLUE + "| Save catpure to:	            	       	 " + bcolors.FAIL + " %s " % write + bcolors.ENDC)
+print (bcolors.OKBLUE + "| Graph saved to:        			 " + bcolors.FAIL + " pnl.png " + bcolors.ENDC)
+print (bcolors.OKBLUE + "|____________________________________________________________________________________________________________ " + bcolors.ENDC)
+print (bcolors.FAIL + "\nPress CTRL + C to Cancel\n\n" + bcolors.ENDC)
 
 #Creates pnl.dot file
 f = open("pnl.dot", 'wb')
@@ -80,7 +93,7 @@ def PacketHandler(pkt) :
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 
-pkts = sniff(iface=args.interface, prn = PacketHandler)
+pkts = sniff(iface=interface, prn = PacketHandler)
 wrpcap(args.write,pkts)
 
 #Append the inthe end of the file
