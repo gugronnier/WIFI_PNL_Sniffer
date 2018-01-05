@@ -4,26 +4,30 @@ A python script to sniff for wifi pnl becons, this will show what SSID's the dev
 WIFI devices will send beacons out looking for SSID's that they have previously connected to, Prefered Netowrk List (PNL)
 This sniffer will sniff and capture these becons and visualize them for you.
 
-Installation
-pip install https://pypi.python.org/packages/source/g/getch/getch-1.0-python2.tar.gz
-pip install pydot
+Requirements
+import argparse
+import pydot
+import sys, getopt, os
+import subprocess
+import pdb
+import threading
+import time
+from scapy.all import *
 
-Or
-sudo apt-get install python-pip python-scapy
+Installation
+sudo apt-get install python-scapy
 
 #to install pip
 wget https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-
+sudo python get-pip.py
 
 Usage:
-
 First run:
 airmon-ng check kill
 And put your wifi network card in monitor mode
-airmon-ng start wlan1
+airmon-ng start wlan0 
 
-.\pnlscanner.py -i wlan1mon -w capture.cap
+.\pnlscanner.py -i wlan0mon -w capture.cap
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -32,4 +36,5 @@ optional arguments:
   -w WRITE, --write WRITE
                         Write to capture pcap file
 
-Example: ./pnlsniffer.py -i wlan1mon -w output.cap
+Example: ./pnlsniffer.py -i wlan0mon -w output.cap
+
