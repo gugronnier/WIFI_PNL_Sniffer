@@ -90,7 +90,7 @@ def PacketHandler(pkt):
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 					print("done")
-	return(ap_list2)
+					return(ap_list2)
 ###
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
