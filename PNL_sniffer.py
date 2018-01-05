@@ -118,6 +118,7 @@ def PacketHandler(pkt):
 
 		try:
 			while True:
+
 			# while True:
 			# 	pressedKey = msvcrt.getch()
 			# 	if pressedKey == 'q':
@@ -132,20 +133,25 @@ def PacketHandler(pkt):
 			# 		pass
 			# 	else:
 			#		print "Key Pressed:" + str(pressedKey)
-				if pkt.haslayer(Dot11) :
-					if pkt.type == 0 and pkt.subtype == 4 :
-						if pkt.addr2 not in ap_list :
-							ap_list.append(pkt.addr2)
-							ap_list2.append([pkt.addr2, pkt.info])
-							print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
-							f = open('pnl.dot', 'a')
-							f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-							print("Capturing wifi pnl traffic...\n Press q to quit or l to list")
-			
-			pass
+				try:
+					
+					if pkt.haslayer(Dot11) :
+						if pkt.type == 0 and pkt.subtype == 4 :
+							if pkt.addr2 not in ap_list :
+								ap_list.append(pkt.addr2)
+								ap_list2.append([pkt.addr2, pkt.info])
+								print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
+								f = open('pnl.dot', 'a')
+								f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
+								print("Capturing wifi pnl traffic...\n Press q to quit or l to list")
+					pass
+				except KeyboardInterrupt:
+					print("Q wass pressed...quiting!")
+					break
+
 		except KeyboardInterrupt:
-			print("Q wass pressed...quiting!")
-			break
+			print("Q wass pressed again...quiting!")
+			pass
 
 		
 				
