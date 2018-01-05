@@ -58,6 +58,7 @@ def banner(interface, write):
 def capture(interface, write):
 
 	print("starting capture")
+	print(str(interface) + str(write))
 	#Creates pnl.dot file
 	f = open("pnl.dot", 'wb')
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
@@ -72,7 +73,7 @@ def capture(interface, write):
 	#PacketHandler(interface, write)
 
 def PacketHandler(pkt):
-		print(str(interface) + str(write))
+		#print(str(interface) + str(write))
 		if pkt.haslayer(Dot11) :
 			if pkt.type == 0 and pkt.subtype == 4 :
 				if pkt.addr2 not in ap_list :
