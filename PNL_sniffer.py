@@ -65,30 +65,31 @@ def capture(interface, write):
 
 	#Defines Capture
 	ap_list = []
-	def PacketHandler(pkt) :
-			if pkt.haslayer(Dot11) :
-				if pkt.type == 0 and pkt.subtype == 4 :
-					if pkt.addr2 not in ap_list :
-						ap_list.append(pkt.addr2)
-						print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
-						f = open('pnl.dot', 'a')
-						f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
+	PacketHandler(interface, write)
 
-	pkts = sniff(iface=interface, prn = PacketHandler)
-	wrpcap(args.write,pkts)
+def PacketHandler(interface, write, pkt):
+		if pkt.haslayer(Dot11) :
+			if pkt.type == 0 and pkt.subtype == 4 :
+				if pkt.addr2 not in ap_list :
+					ap_list.append(pkt.addr2)
+					print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
+					f = open('pnl.dot', 'a')
+					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 
-	#Append the in the end of the file
-	f = open("pnl.dot", 'a')
-	f.write('graph.write_png(\'example1_graph.png\')\n')
-	f.close()
+pkts = sniff(iface=interface, prn = PacketHandler)
+wrpcap(write,pkts)
 
-	replacements = {':':'\:', '\"\"':'\"beacon\"'}
-	with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
-	    for line in infile:
-	       	for src, target in replacements.iteritems():
-	            line = line.replace(src, target)
-	        outfile.write(line)
-	execfile("pnl.fix")
+#Append the in the end of the file
+f = open("pnl.dot", 'a')
+f.write('graph.write_png(\'example1_graph.png\')\n')
+f.close()
+replacements = {':':'\:', '\"\"':'\"beacon\"'}
+with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
+    for line in infile:
+       	for src, target in replacements.iteritems():
+            line = line.replace(src, target)
+        outfile.write(line)
+execfile("pnl.fix")
 
 
 def main():
