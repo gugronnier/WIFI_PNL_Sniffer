@@ -140,7 +140,7 @@ def pnl():
 	execfile("pnl.fix") #replace with funcation
 	print("Graphical representation in: wifi_graph.png ")
 
-def graph()
+def graph():
 	print("create graph")
 	for SSID in ap_list2:
 		graph = pydot.Dot(graph_type='graph')
