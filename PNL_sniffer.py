@@ -80,22 +80,24 @@ def PacketHandler(interface, write, pkt):
 					print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-
+print("done")
 ###
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
 
+
 #Append the in the end of the file
-f = open("pnl.dot", 'a')
-f.write('graph.write_png(\'example1_graph.png\')\n')
-f.close()
-replacements = {':':'\:', '\"\"':'\"beacon\"'}
-with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
-    for line in infile:
-       	for src, target in replacements.iteritems():
-            line = line.replace(src, target)
-        outfile.write(line)
-execfile("pnl.fix")
+def pnl():
+	f = open("pnl.dot", 'a')
+	f.write('graph.write_png(\'example1_graph.png\')\n')
+	f.close()
+	replacements = {':':'\:', '\"\"':'\"beacon\"'}
+	with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
+	    for line in infile:
+	       	for src, target in replacements.iteritems():
+	            line = line.replace(src, target)
+	        outfile.write(line)
+	execfile("pnl.fix")
 
 
 def main():
