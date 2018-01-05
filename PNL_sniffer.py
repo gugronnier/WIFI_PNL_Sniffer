@@ -69,34 +69,36 @@ def banner(interface, write):
 	print (bcolors.OKBLUE + "|____________________________________________________________________________________________________________ " + bcolors.ENDC)
 	print (bcolors.FAIL + "\nPress CTRL + C to Cancel\n\n" + bcolors.ENDC)
 
-def capture(interface, write):
-
-	print("starting capture")
-	print(str(interface) + " " + str(write))
-	#Creates pnl.dot file
+def create_pnl():	
 	f = open("pnl.dot", 'wb')
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
 	f.close()
-	print('Press "ctr + c" to quit')
-	pkts = sniff(iface=interface, prn = PacketHandler)
-	t = threading.Thread(target=sniff(interface, write))
-	t.start()
+#	print('Press "ctr + c" to quit')
+	print('Created pnl.dot')
+	
+def capture(interface, write):
+
+	create_pnl()
+	print("starting capture")
+	print(str(interface) + " " + str(write))
+	
 	try:
-		while t.isAlive():
-			#print("working", next(loop), end='\r', flush=True)
-			time.sleep(1.25)
-
-
+		pkts = sniff(iface='interface', prn ='PacketHandler')
+		print(pkts)
+		wrpcap(write,pkts)
+		pass
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
+
+	print("will try to fix pnl file")
+	pnl()
 
 def sniff(interface, write, pkts):
 	try:
 		while True:
 			#print("working", next(loop), end='\r', flush=True)
 			time.sleep(1.25)
-			
 			wrpcap(write,pkts)
 			#print('\nYou pressed "ctr + c"!, Stopping.')
 	except KeyboardInterrupt:
