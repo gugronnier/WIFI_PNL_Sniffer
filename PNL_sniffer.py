@@ -144,8 +144,8 @@ def PacketHandler(pkt):
 			
 			pass
 		except KeyboardInterrupt:
-			print("quit!")
-			pass
+			print("Q wass pressed...quiting!")
+			break
 
 		
 				
