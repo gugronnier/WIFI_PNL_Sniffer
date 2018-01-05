@@ -127,7 +127,7 @@ def PacketHandler(pkt):
 					print(ap_list2)
 					exit(0)
 				if ch >= 0:
-        			break
+					break
 				if pkt.haslayer(Dot11) :
 					if pkt.type == 0 and pkt.subtype == 4 :
 						if pkt.addr2 not in ap_list :
