@@ -65,9 +65,14 @@ def capture(interface, write):
 
 	#Defines Capture
 	ap_list = []
-	PacketHandler(interface, write)
+
+	pkts = sniff(iface=interface, prn = PacketHandler(interface, write))
+	wrpcap(write,pkts)
+
+	#PacketHandler(interface, write)
 
 def PacketHandler(interface, write, pkt):
+		print(str(interface) + str(write))
 		if pkt.haslayer(Dot11) :
 			if pkt.type == 0 and pkt.subtype == 4 :
 				if pkt.addr2 not in ap_list :
@@ -76,8 +81,9 @@ def PacketHandler(interface, write, pkt):
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 
-pkts = sniff(iface=interface, prn = PacketHandler)
-wrpcap(write,pkts)
+###
+#pkts = sniff(iface=interface, prn = PacketHandler)
+#wrpcap(write,pkts)
 
 #Append the in the end of the file
 f = open("pnl.dot", 'a')
