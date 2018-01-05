@@ -114,7 +114,6 @@ def PacketHandler(pkt):
 
 #Append the in the end of the file
 def pnl():
-	print("pnl file fixed!\n")
 	format()
 	f = open("pnl.dot", 'a')
 	f.write('graph.write_png(\'wifi_graph.png\')\n')
@@ -126,7 +125,7 @@ def pnl():
 	            line = line.replace(src, target)
 	        outfile.write(line)
 	execfile("pnl.fix")
-	print("Created PNG file: wifi_graph.png ")
+	print("Graphical representation in: wifi_graph.png ")
 
 
 def main():
