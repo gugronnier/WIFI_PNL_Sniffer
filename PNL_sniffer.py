@@ -142,7 +142,7 @@ def pnl():
 
 def graph(ap_list):
 	print("create graph")
-	for SSID in ap_list2:
+	for SSID, MAC in ap_list2:
 		graph = pydot.Dot(graph_type='graph')
 		graph.write_png('wifi_graph2.png')
 		edge = pydot.Edge(MAC, SSID)
