@@ -64,8 +64,13 @@ def capture(interface, write):
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
 	f.close()
 
-	pkts = sniff(iface=interface, prn = PacketHandler)
-	wrpcap(write,pkts)
+	try:
+   		while True:
+	        	pkts = sniff(iface=interface, prn = PacketHandler)
+				wrpcap(write,pkts)
+	except KeyboardInterrupt:
+		print("quit!")
+	    pass
 
 	#PacketHandler(interface, write)
 
