@@ -43,6 +43,7 @@ class bcolors:
 ap_list = []
 ap_list2 = []
 
+
 def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
 	print(header)
@@ -76,17 +77,26 @@ def capture(interface, write):
 	f = open("pnl.dot", 'wb')
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
 	f.close()
-
+	print('Press "ctr + c" to quit')
+	t = threading.Thread(target=sniff(interface, write))
+	t.start()
 	try:
-		print('Press "ctr + c" to quit')
-		t = threading.Thread(target=capture(interface, write))
-		t.start()
 		while t.isAlive():
 			#print("working", next(loop), end='\r', flush=True)
-			time.sleep(0.25)
+			time.sleep(1.25)
+
+	except KeyboardInterrupt:
+		print("quit!")
+		pass
+
+def sniff(interface, write):
+	try:
+		while True:
+			#print("working", next(loop), end='\r', flush=True)
+			time.sleep(1.25)
 			pkts = sniff(iface=interface, prn = PacketHandler)
 			wrpcap(write,pkts)
-			print('\nYou pressed "ctr + c"!, Stopping.')
+			#print('\nYou pressed "ctr + c"!, Stopping.')
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
