@@ -66,7 +66,7 @@ def capture(interface, write):
 	#Defines Capture
 	ap_list = []
 
-	pkts = sniff(iface=interface, prn = PacketHandler(interface, write))
+	pkts = sniff(iface=interface, prn = PacketHandler(interface, write, pkt))
 	wrpcap(write,pkts)
 
 	#PacketHandler(interface, write)
