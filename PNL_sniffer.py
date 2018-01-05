@@ -55,7 +55,7 @@ def banner(interface, write):
 	print (bcolors.OKBLUE + "|____________________________________________________________________________________________________________ " + bcolors.ENDC)
 	print (bcolors.FAIL + "\nPress CTRL + C to Cancel\n\n" + bcolors.ENDC)
 
-def capture():
+def capture(interface, write):
 
 	print("starting capture")
 	#Creates pnl.dot file
