@@ -79,11 +79,13 @@ def capture(interface, write):
 	f.close()
 	print('Press "ctr + c" to quit')
 	t = threading.Thread(target=sniff(interface, write))
+	pkts = sniff(iface=interface, prn = PacketHandler)
 	t.start()
 	try:
 		while t.isAlive():
 			#print("working", next(loop), end='\r', flush=True)
 			time.sleep(1.25)
+
 
 	except KeyboardInterrupt:
 		print("quit!")
@@ -94,7 +96,7 @@ def sniff(interface, write):
 		while True:
 			#print("working", next(loop), end='\r', flush=True)
 			time.sleep(1.25)
-			pkts = sniff(iface=interface, prn = PacketHandler)
+			
 			wrpcap(write,pkts)
 			#print('\nYou pressed "ctr + c"!, Stopping.')
 	except KeyboardInterrupt:
