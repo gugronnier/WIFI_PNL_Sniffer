@@ -73,6 +73,8 @@ def capture(interface, write):
 		pass
 	#PacketHandler(interface, write)
 
+	pnl()
+
 def PacketHandler(pkt):
 		#print(str(interface) + str(write))
 		#Defines Capture
@@ -97,7 +99,7 @@ def pnl():
 	f.write('graph.write_png(\'example1_graph.png\')\n')
 	f.close()
 	replacements = {':':'\:', '\"\"':'\"beacon\"'}
-	with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
+	with open('pnl.dot') as infile, open('pnl.fix', 'w') as outfile:
 	    for line in infile:
 	       	for src, target in replacements.iteritems():
 	            line = line.replace(src, target)
