@@ -90,7 +90,7 @@ def PacketHandler(pkt):
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 					print("done")
-					
+				
 ###
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
@@ -102,7 +102,7 @@ def format():
 		print(u"{0:<24}{1:>30}".format(SSID, str(MAC)))
 
 #Append the in the end of the file
-def pnl(ap_list):
+def pnl():
 	print(ap_list2)
 	format()
 	f = open("pnl.dot", 'a')
