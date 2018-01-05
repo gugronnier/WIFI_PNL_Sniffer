@@ -6,7 +6,6 @@ import subprocess
 import pdb
 import threading
 import time
-
 from scapy.all import *
 
 __author__ = 'Mattias Grondahl'
@@ -77,22 +76,26 @@ def create_pnl():
 	print('Created pnl.dot')
 	
 def capture(interface, write):
-
-	create_pnl()
-	print("starting capture")
-	print(str(interface) + " " + str(write))
-	
 	try:
-		pkts = sniff(iface='interface', prn ='PacketHandler')
-		print(pkts)
-		wrpcap(write,pkts)
+		create_pnl()
+		pass
+	except Exception as e:
+		raise e
+	print("starting capture")
+	#print(str(interface) + " " + str(write))
+	try:
+		print("test") #pkts = sniff(iface='interface', prn ='PacketHandler')
 		pass
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
 
-	print("will try to fix pnl file")
-	pnl()
+pkts = sniff(iface=interface, prn=PacketHandler)
+print(pkts)
+wrpcap(write,pkts)
+
+print("will try to fix pnl file")
+pnl()
 
 def sniff(interface, write, pkts):
 	try:
