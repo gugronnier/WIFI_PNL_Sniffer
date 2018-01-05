@@ -96,11 +96,11 @@ def PacketHandler(pkt):
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
 def format():
-	header = u"{0:<20}{1:>30}{2:>30}".format('SSID', 'MAC')
+	header = u"{0:<20}{1:>30}".format('SSID', 'MAC')
 	print(header)
 	print("-"*len(header))
 	for SSID, MAC in ap_list:
-		print(u"{0:<20}{1:>30}{2:>30}".format(SSID, str(MAC)))
+		print(u"{0:<20}{1:>30}".format(SSID, str(MAC)))
 
 #Append the in the end of the file
 def pnl(ap_list):
