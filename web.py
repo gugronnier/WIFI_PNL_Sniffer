@@ -24,10 +24,8 @@ def main():
 	parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
 #	parser.add_argument('-e', '--example', help='shows example')
 	args = parser.parse_args()
-	web()
+	website()
 
-def test():
-	print("test")
 
 if __name__ == '__main__':
     main()
