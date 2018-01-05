@@ -112,6 +112,7 @@ def main():
 	parser = argparse.ArgumentParser(description='PNL sniffer.')
 	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=False)
 	parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
+	parser.add_argument('-p','--pnl', help='Fix pnl file',required=False)
 	parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
 #	parser.add_argument('-e', '--example', help='shows example')
 	args = parser.parse_args()
@@ -120,6 +121,9 @@ def main():
 	if (args.interface == None):
 		parser.print_help()
 		sys.exit(1)
+
+	if (args.pnl != None):
+		pnl()
 
 	# Assign args to variables
 	interface = args.interface
