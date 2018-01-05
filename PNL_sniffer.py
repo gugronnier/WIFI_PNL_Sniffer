@@ -7,6 +7,8 @@ import pdb
 import threading
 import time
 from scapy.all import *
+import SimpleHTTPServer
+import SocketServer
 
 __author__ = 'Mattias Grondahl'
 
@@ -37,6 +39,12 @@ class bcolors:
 ap_list = []
 ap_list2 = []
 
+def web():
+	PORT = 8000
+	Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+	httpd = SocketServer.TCPServer(("", PORT), Handler)
+	print "serving at port", PORT
+	httpd.serve_forever()
 
 def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
@@ -69,6 +77,8 @@ def create_pnl():
 	f.close()
 #	print('Press "ctr + c" to quit')
 	print('Created pnl.dot')
+	print("starting website on port 8080")
+	web()
 	
 def capture(interface, write):
 	try:
