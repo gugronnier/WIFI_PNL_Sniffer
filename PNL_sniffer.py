@@ -42,6 +42,8 @@ class bcolors:
 
 ap_list = []
 ap_list2 = []
+window = curses.initscr()
+window.nodelay(1)
 
 
 def format():
