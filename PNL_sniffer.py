@@ -79,10 +79,11 @@ def capture(interface, write):
 	print("starting capture")
 	print(str(interface))
 
+	#starting packethandler
 	pkts = sniff(iface=interface, prn=PacketHandler)
 	print(pkts)
+
 	try:
-		print("capturing....")
 		wrpcap(write,pkts)
 		pass
 	except Exception as e:
@@ -99,10 +100,12 @@ def PacketHandler(pkt):
 					if pkt.addr2 not in ap_list :
 						ap_list.append(pkt.addr2)
 						ap_list2.append([pkt.addr2, pkt.info])
-						print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
+						print "Device with MAC: %s is looking for SSID: %s " %(pkt.addr2, pkt.info)
 						f = open('pnl.dot', 'a')
 						f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 						print("Capturing wifi pnl traffic...\n Press CTRL + C to quit")
+						print("Update PNL")
+						pnl()
 			pass
 		except KeyboardInterrupt:
 			print("CTRL + C was pressed...quiting!")
