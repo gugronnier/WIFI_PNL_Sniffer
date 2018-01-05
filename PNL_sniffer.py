@@ -4,6 +4,9 @@ import pydot
 import sys, getopt, os
 import subprocess
 import pdb
+import threading
+import time
+
 from scapy.all import *
 
 __author__ = 'Mattias Grondahl'
@@ -68,7 +71,7 @@ def banner(interface, write):
 def capture(interface, write):
 
 	print("starting capture")
-	print(str(interface) + str(write))
+	print(str(interface) + " " + str(write))
 	#Creates pnl.dot file
 	f = open("pnl.dot", 'wb')
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
@@ -97,7 +100,7 @@ def PacketHandler(pkt):
 					print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-					print("done")
+					print("Sniffing for new SSID and PNL...")
 				
 
 #Append the in the end of the file
@@ -143,7 +146,14 @@ def main():
 	# Return all variable values
 #	return interface, write
 #	interface, write = get_args()
-	
+	print('Press "q" to quit')
+	t = threading.Thread(target=capture)
+	t.start()
+	while t.isAlive():
+		#print("working", next(loop), end='\r', flush=True)
+		time.sleep(0.25)
+	print('\nYou pressed "q"!, Stopping.')
+
 	banner(interface, write)
 	capture(interface, write)
 
