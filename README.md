@@ -1,3 +1,4 @@
+
 # WIFI_PNL_Sniffer
 A python script to sniff for wifi pnl becons, this will show what SSID's the devices are looking for.
 
@@ -6,6 +7,8 @@ This sniffer will sniff and capture these becons and visualize them for you.
 
 Requirements
 pip install requirements.txt
+sudo apt-get install python-pydot
+sudo apt-get install aircrack-ng
 
 Usage:
 First run:
