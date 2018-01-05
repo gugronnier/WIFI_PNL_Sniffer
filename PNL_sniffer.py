@@ -75,7 +75,6 @@ def capture(interface, write):
 		print("quit!")
 		pass
 	#PacketHandler(interface, write)
-
 	pnl()
 
 def PacketHandler(pkt):
@@ -91,16 +90,16 @@ def PacketHandler(pkt):
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 					print("done")
-					pnl(ap_list2)
+					
 ###
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
 def format():
-	header = u"{0:<20}{1:>30}".format('SSID', 'MAC')
+	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
 	print(header)
 	print("-"*len(header))
 	for SSID, MAC in ap_list:
-		print(u"{0:<20}{1:>30}".format(SSID, str(MAC)))
+		print(u"{0:<24}{1:>30}".format(SSID, str(MAC)))
 
 #Append the in the end of the file
 def pnl(ap_list):
