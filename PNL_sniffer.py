@@ -37,74 +37,84 @@ class bcolors:
         self.FAIL = ''
         self.ENDC = ''
 
-def get_args():
+def banner(interface, write):
+	print bcolors.OKGREEN +'''
+		 _____  _   _ _         _____       _  __  __          
+		 |  __ \| \ | | |      / ____|     (_)/ _|/ _|         
+		 | |__) |  \| | |      | (___  _ __  _| |_| |_ ___ _ __ 
+		 |  ___/| . ` | |       \___ \| '_ \| |  _|  _/ _ \ '__|
+		 | |    | |\  | |____   ____) | | | | | | | ||  __/ |   
+		 |_|    |_| \_|______| |_____/|_| |_|_|_| |_| \___|_|   
+	                                                        
+	'''
+
+	print (bcolors.OKBLUE + "_____________________________________________________________________________________________________________ " + bcolors.ENDC)
+	print (bcolors.OKBLUE + "|\n| Interface name:			 	 " + bcolors.FAIL + " %s " % interface + bcolors.ENDC)
+	print (bcolors.OKBLUE + "| Save catpure to:	            	       	 " + bcolors.FAIL + " %s " % write + bcolors.ENDC)
+	print (bcolors.OKBLUE + "| Graph saved to:        			 " + bcolors.FAIL + " pnl.png " + bcolors.ENDC)
+	print (bcolors.OKBLUE + "|____________________________________________________________________________________________________________ " + bcolors.ENDC)
+	print (bcolors.FAIL + "\nPress CTRL + C to Cancel\n\n" + bcolors.ENDC)
+
+def capture():
+
+	print("starting capture")
+	#Creates pnl.dot file
+	f = open("pnl.dot", 'wb')
+	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
+	f.close()
+
+	#Defines Capture
+	ap_list = []
+	def PacketHandler(pkt) :
+			if pkt.haslayer(Dot11) :
+				if pkt.type == 0 and pkt.subtype == 4 :
+					if pkt.addr2 not in ap_list :
+						ap_list.append(pkt.addr2)
+						print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
+						f = open('pnl.dot', 'a')
+						f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
+
+	pkts = sniff(iface=interface, prn = PacketHandler)
+	wrpcap(args.write,pkts)
+
+	#Append the in the end of the file
+	f = open("pnl.dot", 'a')
+	f.write('graph.write_png(\'example1_graph.png\')\n')
+	f.close()
+
+	replacements = {':':'\:', '\"\"':'\"beacon\"'}
+	with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
+	    for line in infile:
+	       	for src, target in replacements.iteritems():
+	            line = line.replace(src, target)
+	        outfile.write(line)
+	execfile("pnl.fix")
+
+
+def main():
+
 	parser = argparse.ArgumentParser(description='PNL sniffer.')
-	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=True)
+	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=False)
 	parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
 	parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
-	parser.add_argument('-e', '--example', help='shows example')
+#	parser.add_argument('-e', '--example', help='shows example')
 	args = parser.parse_args()
+	
+	#Print Help
+	if (args.interface == None):
+		parser.print_help()
+		sys.exit(1)
 
-#if args.example:
-#	print "example"
-
-# Assign args to variables
+	# Assign args to variables
 	interface = args.interface
 	write = args.write
-# Return all variable values
-	return interface, write
 
-interface, write = get_args()
+	# Return all variable values
+#	return interface, write
+#	interface, write = get_args()
+	
+	banner(interface, write)
+	capture(interface, write)
 
-#if not args.interface:
-#  parser.print_usage()
-#  sys.exit(2)
-
-print bcolors.OKGREEN +'''
-	 _____  _   _ _         _____       _  __  __          
-	 |  __ \| \ | | |      / ____|     (_)/ _|/ _|         
-	 | |__) |  \| | |      | (___  _ __  _| |_| |_ ___ _ __ 
-	 |  ___/| . ` | |       \___ \| '_ \| |  _|  _/ _ \ '__|
-	 | |    | |\  | |____   ____) | | | | | | | ||  __/ |   
-	 |_|    |_| \_|______| |_____/|_| |_|_|_| |_| \___|_|   
-                                                        
-'''
-
-print (bcolors.OKBLUE + "_____________________________________________________________________________________________________________ " + bcolors.ENDC)
-print (bcolors.OKBLUE + "|\n| Interface name:			 	 " + bcolors.FAIL + " %s " % interface + bcolors.ENDC)
-print (bcolors.OKBLUE + "| Save catpure to:	            	       	 " + bcolors.FAIL + " %s " % write + bcolors.ENDC)
-print (bcolors.OKBLUE + "| Graph saved to:        			 " + bcolors.FAIL + " pnl.png " + bcolors.ENDC)
-print (bcolors.OKBLUE + "|____________________________________________________________________________________________________________ " + bcolors.ENDC)
-print (bcolors.FAIL + "\nPress CTRL + C to Cancel\n\n" + bcolors.ENDC)
-
-#Creates pnl.dot file
-f = open("pnl.dot", 'wb')
-f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
-f.close()
-
-#Defines Capture
-ap_list = []
-def PacketHandler(pkt) :
-		if pkt.haslayer(Dot11) :
-			if pkt.type == 0 and pkt.subtype == 4 :
-				if pkt.addr2 not in ap_list :
-					ap_list.append(pkt.addr2)
-					print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
-					f = open('pnl.dot', 'a')
-					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-
-pkts = sniff(iface=interface, prn = PacketHandler)
-wrpcap(args.write,pkts)
-
-#Append the inthe end of the file
-f = open("pnl.dot", 'a')
-f.write('graph.write_png(\'example1_graph.png\')\n')
-f.close()
-
-replacements = {':':'\:', '\"\"':'\"beacon\"'}
-with open('/root/Wifi/pnl.dot') as infile, open('/root/Wifi/pnl.fix', 'w') as outfile:
-    for line in infile:
-       	for src, target in replacements.iteritems():
-            line = line.replace(src, target)
-        outfile.write(line)
-execfile("pnl.fix")
+if __name__ == '__main__':
+    main()
