@@ -78,15 +78,15 @@ def capture(interface, write):
 	f.close()
 
 	try:
-		print('Press "q" to quit')
-		t = threading.Thread(target=capture)
+		print('Press "ctr + c" to quit')
+		t = threading.Thread(target=capture(interface, write))
 		t.start()
 		while t.isAlive():
 			#print("working", next(loop), end='\r', flush=True)
 			time.sleep(0.25)
-			pkts = sniff(iface=interface, prn = PacketHandler)
+				pkts = sniff(iface=interface, prn = PacketHandler)
 			wrpcap(write,pkts)
-			print('\nYou pressed "q"!, Stopping.')
+			print('\nYou pressed "ctr + c"!, Stopping.')
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
