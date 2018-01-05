@@ -40,12 +40,13 @@ ap_list = []
 ap_list2 = []
 
 def web():
-	PORT = 8000
-	Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-	httpd = SocketServer.TCPServer(("", PORT), Handler)
-	print "serving at port", PORT
-	httpd.serve_forever()
-	pass
+	execfile("web.py")
+	# PORT = 8000
+	# Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+	# httpd = SocketServer.TCPServer(("", PORT), Handler)
+	# print "serving at port", PORT
+	# #httpd.serve_forever()
+	# pass
 
 def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
