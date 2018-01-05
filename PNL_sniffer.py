@@ -129,8 +129,8 @@ def PacketHandler(pkt):
 			pass
 		except KeyboardInterrupt:
 			print("Q was pressed...quiting!")
-			break
-				
+			sys.exit(1)
+							
 
 #Append the in the end of the file
 def pnl():
