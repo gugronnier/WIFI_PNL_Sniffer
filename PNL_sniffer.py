@@ -98,7 +98,7 @@ def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
 	print(header)
 	print("-"*len(header))
-	for SSID, MAC in ap_list:
+	for SSID, MAC in ap_list2:
 		print(u"{0:<24}{1:>30}".format(SSID, str(MAC)))
 
 #Append the in the end of the file
