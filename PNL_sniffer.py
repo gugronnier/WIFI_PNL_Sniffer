@@ -137,9 +137,16 @@ def pnl():
 	       	for src, target in replacements.iteritems():
 	            line = line.replace(src, target)
 	        outfile.write(line)
-	execfile("pnl.fix")
+	execfile("pnl.fix") #replace with funcation
 	print("Graphical representation in: wifi_graph.png ")
 
+def graph()
+	print("create graph")
+	for SSID in ap_list2:
+		graph = pydot.Dot(graph_type='graph')
+		graph.write_png('wifi_graph2.png')
+		edge = pydot.Edge(MAC, SSID)
+		graph.add_edge(edge)
 
 def main():
 	parser = argparse.ArgumentParser(description='PNL sniffer.')
@@ -164,6 +171,7 @@ def main():
 
 	banner(interface, write)
 	capture(interface, write)
+	graph(ap_list2)
 
 if __name__ == '__main__':
     main()
