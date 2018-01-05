@@ -9,7 +9,7 @@ import time
 from scapy.all import *
 import SimpleHTTPServer
 import SocketServer
-from web import website
+#from web import website
 
 __author__ = 'Mattias Grondahl'
 
