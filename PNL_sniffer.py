@@ -80,8 +80,8 @@ def create_pnl():
 	f.close()
 #	print('Press "ctr + c" to quit')
 	print('Created pnl.dot')
-	print("starting website on port 8080")
-	website()
+	#print("starting website on port 8080")
+	#website()
 	
 def capture(interface, write):
 	try:
