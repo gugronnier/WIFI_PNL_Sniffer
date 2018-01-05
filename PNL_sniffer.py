@@ -6,7 +6,6 @@ import subprocess
 import pdb
 import threading
 import time
-import curses
 from scapy.all import *
 
 __author__ = 'Mattias Grondahl'
@@ -43,13 +42,6 @@ class bcolors:
 ap_list = []
 ap_list2 = []
 
-stdscr = curses.initscr()
-curses.cbreak()
-stdscr.keypad(1)
-
-stdscr.addstr(0,10,"Hit 'q' to quit")
-stdscr.refresh()
-key = ''
 
 def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
@@ -125,19 +117,7 @@ def PacketHandler(pkt):
 		#Defines Capture
 
 		try:
-			while key != ord('q'):
-				key = stdscr.getch()
-				stdscr.addch(20,25,key)
-				stdscr.refresh()
-				if key == curses.KEY_UP: 
-					stdscr.addstr(2, 20, "Up")
-					print("up")
-				elif key == curses.KEY_DOWN: 
-					stdscr.addstr(3, 20, "Down")
-					print("down")
-				curses.endwin()
-
-
+			while True:
 			# while True:
 			# 	pressedKey = msvcrt.getch()
 			# 	if pressedKey == 'q':
