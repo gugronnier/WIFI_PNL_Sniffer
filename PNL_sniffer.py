@@ -64,9 +64,6 @@ def capture(interface, write):
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
 	f.close()
 
-	#Defines Capture
-	ap_list = []
-
 	pkts = sniff(iface=interface, prn = PacketHandler)
 	wrpcap(write,pkts)
 
@@ -74,6 +71,9 @@ def capture(interface, write):
 
 def PacketHandler(pkt):
 		#print(str(interface) + str(write))
+		#Defines Capture
+		ap_list = []
+
 		if pkt.haslayer(Dot11) :
 			if pkt.type == 0 and pkt.subtype == 4 :
 				if pkt.addr2 not in ap_list :
