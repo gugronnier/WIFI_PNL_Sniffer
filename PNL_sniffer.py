@@ -65,13 +65,12 @@ def capture(interface, write):
 	f.close()
 
 	try:
-   		while True:
-	        	pkts = sniff(iface=interface, prn = PacketHandler)
-				wrpcap(write,pkts)
+		while True:
+			pkts = sniff(iface=interface, prn = PacketHandler)
+			wrpcap(write,pkts)
 	except KeyboardInterrupt:
 		print("quit!")
-	    pass
-
+		pass
 	#PacketHandler(interface, write)
 
 def PacketHandler(pkt):
