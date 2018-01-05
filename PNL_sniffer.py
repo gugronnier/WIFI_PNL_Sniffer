@@ -10,11 +10,6 @@ from scapy.all import *
 
 __author__ = 'Mattias Grondahl'
 
-#try:
-#	from scapy.all import *
-#except ImportError, error:
-#	raise Exception("Your pnlsniffer installation is broken, could not import libraries: %s" %(error))
-
 #Future features
 # -A to include AP in graphs
 # -C to include clients
@@ -90,7 +85,6 @@ def capture(interface, write):
 		print("capturing....")
 		wrpcap(write,pkts)
 		pass
-	#except KeyboardInterrupt:
 	except Exception as e:
 		print("quit!")
 		pass
@@ -98,24 +92,7 @@ def capture(interface, write):
 	print("Will try to fix pnl file...")
 	pnl()
 
-# def sniffer(interface, write, pkts):
-# 	try:
-# 		while True:
-# 			#print("working", next(loop), end='\r', flush=True)
-# 			time.sleep(1.25)
-# 			wrpcap(write,pkts)
-# 			#print('\nYou pressed "ctr + c"!, Stopping.')
-# 	except KeyboardInterrupt:
-# 		print("quit!")
-# 		pass
-# 	#PacketHandler(interface, write)
-# 	print("will try to fix pnl file")
-# 	pnl()
-
 def PacketHandler(pkt):
-		#print(str(interface) + str(write))
-		#Defines Capture
-
 		try:
 			if pkt.haslayer(Dot11) :
 				if pkt.type == 0 and pkt.subtype == 4 :
@@ -125,16 +102,15 @@ def PacketHandler(pkt):
 						print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
 						f = open('pnl.dot', 'a')
 						f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-						print("Capturing wifi pnl traffic...\n Press q to quit or l to list")
+						print("Capturing wifi pnl traffic...\n Press CTRL + C to quit")
 			pass
 		except KeyboardInterrupt:
-			print("Q was pressed...quiting!")
+			print("CTRL + C was pressed...quiting!")
 			sys.exit(1)
 							
 
 #Append the in the end of the file
 def pnl():
-	#print("ap list contains " + str(ap_list2))
 	print("pnl file fixed!\n")
 	format()
 	f = open("pnl.dot", 'a')
@@ -168,15 +144,9 @@ def main():
 		parser.print_help()
 		sys.exit(1)
 
-	
-
 	# Assign args to variables
 	interface = args.interface
 	write = args.write
-
-	# Return all variable values
-#	return interface, write
-#	interface, write = get_args()
 
 	banner(interface, write)
 	capture(interface, write)
