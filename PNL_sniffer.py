@@ -82,34 +82,34 @@ def capture(interface, write):
 	except Exception as e:
 		raise e
 	print("starting capture")
-	#print(str(interface) + " " + str(write))
+	print(str(interface))
+
+	pkts = sniff(iface=interface, prn=PacketHandler)
+	print(pkts)
 	try:
-		print("test") #pkts = sniff(iface='interface', prn ='PacketHandler')
+		print("capturing....")
+		wrpcap(write,pkts)
 		pass
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
-
-pkts = sniff(iface=interface, prn=PacketHandler)
-print(pkts)
-wrpcap(write,pkts)
-
-print("will try to fix pnl file")
-pnl()
-
-def sniff(interface, write, pkts):
-	try:
-		while True:
-			#print("working", next(loop), end='\r', flush=True)
-			time.sleep(1.25)
-			wrpcap(write,pkts)
-			#print('\nYou pressed "ctr + c"!, Stopping.')
-	except KeyboardInterrupt:
-		print("quit!")
-		pass
-	#PacketHandler(interface, write)
+	
 	print("will try to fix pnl file")
 	pnl()
+
+# def sniffer(interface, write, pkts):
+# 	try:
+# 		while True:
+# 			#print("working", next(loop), end='\r', flush=True)
+# 			time.sleep(1.25)
+# 			wrpcap(write,pkts)
+# 			#print('\nYou pressed "ctr + c"!, Stopping.')
+# 	except KeyboardInterrupt:
+# 		print("quit!")
+# 		pass
+# 	#PacketHandler(interface, write)
+# 	print("will try to fix pnl file")
+# 	pnl()
 
 def PacketHandler(pkt):
 		#print(str(interface) + str(write))
