@@ -6,7 +6,7 @@ import SimpleHTTPServer
 import SocketServer
 
 
-def web():
+def website():
 	PORT = 8080
 	Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 	httpd = SocketServer.TCPServer(("", PORT), Handler)
@@ -17,9 +17,10 @@ def web():
 
 
 def main():
-
 	parser = argparse.ArgumentParser(description='PNL sniffer.')
 	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=False)
+	parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
+	parser.add_argument('-p','--pnl', help='Fix pnl file',required=False)
 	parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
 #	parser.add_argument('-e', '--example', help='shows example')
 	args = parser.parse_args()

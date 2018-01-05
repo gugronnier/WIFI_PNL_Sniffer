@@ -9,6 +9,7 @@ import time
 from scapy.all import *
 import SimpleHTTPServer
 import SocketServer
+from web import website
 
 __author__ = 'Mattias Grondahl'
 
@@ -39,8 +40,8 @@ class bcolors:
 ap_list = []
 ap_list2 = []
 
-def web():
-	execfile("web.py")
+# def web():
+# 	execfile("web.py")
 	# PORT = 8000
 	# Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 	# httpd = SocketServer.TCPServer(("", PORT), Handler)
@@ -80,7 +81,7 @@ def create_pnl():
 #	print('Press "ctr + c" to quit')
 	print('Created pnl.dot')
 	print("starting website on port 8080")
-	web()
+	website()
 	
 def capture(interface, write):
 	try:
@@ -141,7 +142,6 @@ def pnl():
 
 
 def main():
-
 	parser = argparse.ArgumentParser(description='PNL sniffer.')
 	parser.add_argument('-i','--interface', help='Interface used to sniff traffic',required=False)
 	parser.add_argument('-w','--write', help='Saves captured traffic to a capture file',required=False)
