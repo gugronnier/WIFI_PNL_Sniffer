@@ -1,3 +1,4 @@
+
 # WIFI_PNL_Sniffer
 A python script to sniff for wifi pnl becons, this will show what SSID's the devices are looking for.
 
@@ -7,6 +8,9 @@ This sniffer will sniff and capture these becons and visualize them for you.
 Installation
 pip install https://pypi.python.org/packages/source/g/getch/getch-1.0-python2.tar.gz
 pip install pydot
+
+Or
+sudo apt-get install python-pip
 
 Usage:
 
