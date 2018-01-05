@@ -5,21 +5,7 @@ WIFI devices will send beacons out looking for SSID's that they have previously 
 This sniffer will sniff and capture these becons and visualize them for you.
 
 Requirements
-import argparse
-import pydot
-import sys, getopt, os
-import subprocess
-import pdb
-import threading
-import time
-from scapy.all import *
-
-Installation
-sudo apt-get install python-scapy
-
-#to install pip
-wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+pip install requirements.txt
 
 Usage:
 First run:
