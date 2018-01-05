@@ -71,7 +71,7 @@ def capture(interface, write):
 
 	#PacketHandler(interface, write)
 
-def PacketHandler(interface, write, pkt):
+def PacketHandler(pkt):
 		print(str(interface) + str(write))
 		if pkt.haslayer(Dot11) :
 			if pkt.type == 0 and pkt.subtype == 4 :
