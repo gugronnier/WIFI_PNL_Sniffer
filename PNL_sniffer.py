@@ -78,8 +78,8 @@ def capture(interface, write):
 	f.write('import pydot\ngraph = pydot.Dot(graph_type=\'graph\')\n' )
 	f.close()
 	print('Press "ctr + c" to quit')
-	t = threading.Thread(target=sniff(interface, write))
 	pkts = sniff(iface=interface, prn = PacketHandler)
+	t = threading.Thread(target=sniff(interface, write))
 	t.start()
 	try:
 		while t.isAlive():
@@ -91,7 +91,7 @@ def capture(interface, write):
 		print("quit!")
 		pass
 
-def sniff(interface, write):
+def sniff(interface, write, pkts):
 	try:
 		while True:
 			#print("working", next(loop), end='\r', flush=True)
