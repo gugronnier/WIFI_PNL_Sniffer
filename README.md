@@ -11,6 +11,11 @@ pip install pydot
 Or
 sudo apt-get install python-pip python-scapy
 
+#to install pip
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+
+
 Usage:
 
 First run:
