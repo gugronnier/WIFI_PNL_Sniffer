@@ -94,7 +94,7 @@ def capture(interface, write):
 		print("quit!")
 		pass
 	
-	print("will try to fix pnl file")
+	print("Will try to fix pnl file...")
 	pnl()
 
 # def sniffer(interface, write, pkts):
@@ -115,23 +115,33 @@ def PacketHandler(pkt):
 		#print(str(interface) + str(write))
 		#Defines Capture
 
-		if pkt.haslayer(Dot11) :
-			if pkt.type == 0 and pkt.subtype == 4 :
-				if pkt.addr2 not in ap_list :
-					ap_list.append(pkt.addr2)
-					ap_list2.append([pkt.addr2, pkt.info])
-					print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
-					f = open('pnl.dot', 'a')
-					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
-					print("Sniffing for new SSID and PNL...")
+		try:
+			while True:
+				if pkt.haslayer(Dot11) :
+					if pkt.type == 0 and pkt.subtype == 4 :
+						if pkt.addr2 not in ap_list :
+							ap_list.append(pkt.addr2)
+							ap_list2.append([pkt.addr2, pkt.info])
+							print "%s looking for SSID: %s " %(pkt.addr2, pkt.info)
+							f = open('pnl.dot', 'a')
+							f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
+							print("Sniffing for new SSID and PNL...")
+			
+			pass
+		except KeyboardInterrupt:
+			print("quit!")
+			pass
+
+		
 				
 
 #Append the in the end of the file
 def pnl():
-	print("ap list contains " + str(ap_list2))
+	#print("ap list contains " + str(ap_list2))
+	print("pnl file fixed!\n")
 	format()
 	f = open("pnl.dot", 'a')
-	f.write('graph.write_png(\'example1_graph.png\')\n')
+	f.write('graph.write_png(\'wifi_graph.png\')\n')
 	f.close()
 	replacements = {':':'\:', '\"\"':'\"beacon\"'}
 	with open('pnl.dot') as infile, open('pnl.fix', 'w') as outfile:
@@ -140,6 +150,7 @@ def pnl():
 	            line = line.replace(src, target)
 	        outfile.write(line)
 	execfile("pnl.fix")
+	print("Created PNG file: wifi_graph.png ")
 
 
 def main():
