@@ -84,7 +84,7 @@ def capture(interface, write):
 		while t.isAlive():
 			#print("working", next(loop), end='\r', flush=True)
 			time.sleep(0.25)
-				pkts = sniff(iface=interface, prn = PacketHandler)
+			pkts = sniff(iface=interface, prn = PacketHandler)
 			wrpcap(write,pkts)
 			print('\nYou pressed "ctr + c"!, Stopping.')
 	except KeyboardInterrupt:
