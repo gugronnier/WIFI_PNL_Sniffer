@@ -6,7 +6,7 @@ import subprocess
 import pdb
 import threading
 import time
-import curses
+import msvcrt
 from scapy.all import *
 
 __author__ = 'Mattias Grondahl'
@@ -42,9 +42,6 @@ class bcolors:
 
 ap_list = []
 ap_list2 = []
-window = curses.initscr()
-window.nodelay(1)
-
 
 def format():
 	header = u"{0:<24}{1:>30}".format('SSID', 'MAC')
@@ -121,15 +118,19 @@ def PacketHandler(pkt):
 
 		try:
 			while True:
-				char = window.getch()
-				if (char == "q"):
-					print("Quit!")
-					exit(0)
-				if (char == "l"):
-					print(ap_list2)
-					exit(0)
-				if ch >= 0:
+				pressedKey = msvcrt.getch()
+				if pressedKey == 'q':
+					print "Q was pressed"
 					break
+				elif pressedKey == 'x':
+					print "x was pressed"
+					sys.exit()
+				elif pressedKey == 'l':
+					print "l was pressed"
+					print(ap_list2)
+					pass
+				else:
+					print "Key Pressed:" + str(pressedKey)
 				if pkt.haslayer(Dot11) :
 					if pkt.type == 0 and pkt.subtype == 4 :
 						if pkt.addr2 not in ap_list :
