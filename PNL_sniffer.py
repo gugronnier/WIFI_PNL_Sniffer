@@ -78,9 +78,15 @@ def capture(interface, write):
 	f.close()
 
 	try:
-		while True:
+		print('Press "q" to quit')
+		t = threading.Thread(target=capture)
+		t.start()
+		while t.isAlive():
+			#print("working", next(loop), end='\r', flush=True)
+			time.sleep(0.25)
 			pkts = sniff(iface=interface, prn = PacketHandler)
 			wrpcap(write,pkts)
+			print('\nYou pressed "q"!, Stopping.')
 	except KeyboardInterrupt:
 		print("quit!")
 		pass
@@ -146,13 +152,6 @@ def main():
 	# Return all variable values
 #	return interface, write
 #	interface, write = get_args()
-	print('Press "q" to quit')
-	t = threading.Thread(target=capture)
-	t.start()
-	while t.isAlive():
-		#print("working", next(loop), end='\r', flush=True)
-		time.sleep(0.25)
-	print('\nYou pressed "q"!, Stopping.')
 
 	banner(interface, write)
 	capture(interface, write)
