@@ -37,6 +37,9 @@ class bcolors:
         self.FAIL = ''
         self.ENDC = ''
 
+ap_list = []
+ap_list2 = []
+
 def banner(interface, write):
 	print bcolors.OKGREEN +'''
 		 _____  _   _ _         _____       _  __  __          
@@ -73,13 +76,11 @@ def capture(interface, write):
 		pass
 	#PacketHandler(interface, write)
 
-	pnl(ap_list2)
+	pnl()
 
 def PacketHandler(pkt):
 		#print(str(interface) + str(write))
 		#Defines Capture
-		ap_list = []
-		ap_list2 = []
 
 		if pkt.haslayer(Dot11) :
 			if pkt.type == 0 and pkt.subtype == 4 :
@@ -90,15 +91,21 @@ def PacketHandler(pkt):
 					f = open('pnl.dot', 'a')
 					f.write('edge = pydot.Edge("%s", "%s")\ngraph.add_edge(edge)\n' %(pkt.addr2, pkt.info))
 					print("done")
-					return(ap_list2)
+					pnl(ap_list2)
 ###
 #pkts = sniff(iface=interface, prn = PacketHandler)
 #wrpcap(write,pkts)
-
+def format():
+	header = u"{0:<20}{1:>30}{2:>30}".format('SSID', 'MAC')
+	print(header)
+	print("-"*len(header))
+	for SSID, MAC in ap_list:
+		print(u"{0:<20}{1:>30}{2:>30}".format(SSID, str(MAC)))
 
 #Append the in the end of the file
-def pnl():
+def pnl(ap_list):
 	print(ap_list2)
+	format()
 	f = open("pnl.dot", 'a')
 	f.write('graph.write_png(\'example1_graph.png\')\n')
 	f.close()
