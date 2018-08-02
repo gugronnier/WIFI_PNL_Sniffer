@@ -27,3 +27,6 @@ optional arguments:
 
 Example: ./pnlsniffer.py -i wlan0mon -w output.cap
 
+pip install pydot
+pip install scapy
+pip install graphviz
