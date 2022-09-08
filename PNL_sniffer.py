@@ -11,8 +11,6 @@ import SimpleHTTPServer
 import SocketServer
 #from web import website
 
-__author__ = 'Mattias Grondahl'
-
 #Future features
 # -A to include AP in graphs
 # -C to include clients
